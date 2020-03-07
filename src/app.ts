@@ -18,4 +18,8 @@ app.get('/', (req, res) => {
   res.send('Welcome to typescript!');
 });
 
+app.get('/status', (req, res) => {
+  res.send('Application online!');
+});
+
 export default app
