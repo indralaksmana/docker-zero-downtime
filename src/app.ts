@@ -6,7 +6,7 @@ import bodyParser from 'body-parser';
 const app = express();
 
 // Express configuration
-app.set("port", process.env.PORT);
+app.set('port', process.env.PORT);
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

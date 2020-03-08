@@ -1,10 +1,12 @@
-version: '3'
+version: "3"
+
 services:
-  node-api:
-    image: node-api
+  node_api:
+    image: node_api
+    container_name: node_api
     build:
       context: .
-      dockerfile: ./docker/Dockerfile
+      dockerfile: ./docker/api/Dockerfile
     networks:
       - gateway
     ports:
@@ -14,16 +16,20 @@ services:
       - "traefik.enable=true"
       - "traefik.backend=node-api"
       - "traefik.backend.port=3000"
-      - "traefik.http.routers.node-api.rule=Host(`node.localhost`)"
-      - "traefik.http.services.node-api.loadbalancer.healthcheck.interval=5s"
-      - "traefik.http.services.node-api.loadbalancer.healthcheck.timeout=3s"
-      - "traefik.http.services.node-api.loadbalancer.healthcheck.path=/health"
-      - "traefik.frontend.rule=Host:node.localhost"
+      - "traefik.http.routers.node_api.rule=Host(`api.node.localhost`)"
+      - "traefik.http.services.node_api.loadbalancer.healthcheck.interval=5s"
+      - "traefik.http.services.node_api.loadbalancer.healthcheck.timeout=3s"
+      - "traefik.http.services.node_api.loadbalancer.healthcheck.path=/health"
+      - "traefik.frontend.rule=Host:api.node.localhost"
       - "traefik.port=3000"
       - "traefik.docker.network=gateway"
   
-  node-traefik:
-    image: traefik:1.7.21-alpine
+  node_traefik:
+    image: node_traefik
+    container_name: node_traefik
+    build:
+      context: .
+      dockerfile: ./docker/traefik/Dockerfile
     command: --web --docker --docker.domain=node.localhost --docker.exposedbydefault=false --logLevel=DEBUG --configFile=/etc/traefik/traefik.toml
     networks:
         - gateway

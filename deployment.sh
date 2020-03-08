@@ -9,7 +9,7 @@ else
 fi
 
 echo "Starting "$ENV" container"
-docker-compose --project-name=$ENV up -d
+docker-compose --project-name=$ENV up -d --build
 
 echo "Waiting..."
 sleep 5s
