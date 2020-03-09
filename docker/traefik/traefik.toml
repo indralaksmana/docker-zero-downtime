@@ -17,7 +17,7 @@ maxMem = 3
 
 [docker]
 endpoint = "unix:///var/run/docker.sock"
-domain = "node.localhost"
+domain = "docker.localhost"
 network = "gateway"
 watch = true
 exposedbydefault = false

@@ -16,11 +16,11 @@ services:
       - "traefik.enable=true"
       - "traefik.backend=node-api"
       - "traefik.backend.port=8000"
-      - "traefik.http.routers.node_api.rule=Host(`api.node.localhost`)"
+      - "traefik.http.routers.node_api.rule=Host(`node.docker.localhost`)"
       - "traefik.http.services.node_api.loadbalancer.healthcheck.interval=5s"
       - "traefik.http.services.node_api.loadbalancer.healthcheck.timeout=3s"
       - "traefik.http.services.node_api.loadbalancer.healthcheck.path=/health"
-      - "traefik.frontend.rule=Host:api.node.localhost"
+      - "traefik.frontend.rule=Host:node.docker.localhost"
       - "traefik.port=8000"
       - "traefik.docker.network=gateway"
   
@@ -30,7 +30,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/traefik/Dockerfile
-    command: --web --docker --docker.domain=node.localhost --docker.exposedbydefault=false --logLevel=DEBUG --configFile=/etc/traefik/traefik.toml
+    command: --web --docker --docker.domain=docker.localhost --docker.exposedbydefault=false --logLevel=DEBUG --configFile=/etc/traefik/traefik.toml
     networks:
       - traefik
       - gateway
