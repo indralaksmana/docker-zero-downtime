@@ -33,6 +33,7 @@ services:
     command: --web --docker --docker.domain=node.localhost --docker.exposedbydefault=false --logLevel=DEBUG --configFile=/etc/traefik/traefik.toml
     networks:
         - gateway
+        - traefik
     ports:
         - "80:80"
         - "8080:8080"
@@ -43,4 +44,6 @@ services:
 
 networks:
   gateway:
+    external: true
+  traefik:
     external: true
