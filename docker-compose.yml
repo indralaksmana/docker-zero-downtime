@@ -10,18 +10,18 @@ services:
     networks:
       - gateway
     ports:
-      - "3000:3000"
+      - "8000:8000"
     restart: always
     labels:
       - "traefik.enable=true"
       - "traefik.backend=node-api"
-      - "traefik.backend.port=3000"
+      - "traefik.backend.port=8000"
       - "traefik.http.routers.node_api.rule=Host(`api.node.localhost`)"
       - "traefik.http.services.node_api.loadbalancer.healthcheck.interval=5s"
       - "traefik.http.services.node_api.loadbalancer.healthcheck.timeout=3s"
       - "traefik.http.services.node_api.loadbalancer.healthcheck.path=/health"
       - "traefik.frontend.rule=Host:api.node.localhost"
-      - "traefik.port=3000"
+      - "traefik.port=8000"
       - "traefik.docker.network=gateway"
   
   node_traefik:
@@ -32,15 +32,15 @@ services:
       dockerfile: ./docker/traefik/Dockerfile
     command: --web --docker --docker.domain=node.localhost --docker.exposedbydefault=false --logLevel=DEBUG --configFile=/etc/traefik/traefik.toml
     networks:
-        - gateway
-        - traefik
+      - traefik
+      - gateway
     ports:
-        - "80:80"
-        - "8080:8080"
+      - "80:80"
+      - "8080:8080"
     restart: always
     volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
-        - ./docker/traefik/traefik.toml:/traefik.toml
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./docker/traefik/traefik.toml:/traefik.toml
 
 networks:
   gateway:
