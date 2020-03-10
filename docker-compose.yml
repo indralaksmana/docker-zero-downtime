@@ -6,9 +6,10 @@ services:
     container_name: node_api
     build:
       context: .
-      dockerfile: ./docker/api/Dockerfile
+      dockerfile: ./docker/Dockerfile
     networks:
       - gateway
+      - traefik
     ports:
       - "8000:8000"
     restart: always
@@ -23,24 +24,6 @@ services:
       - "traefik.frontend.rule=Host:node.docker.localhost"
       - "traefik.port=8000"
       - "traefik.docker.network=gateway"
-  
-  node_traefik:
-    image: node_traefik
-    container_name: node_traefik
-    build:
-      context: .
-      dockerfile: ./docker/traefik/Dockerfile
-    command: --web --docker --docker.domain=docker.localhost --docker.exposedbydefault=false --logLevel=DEBUG --configFile=/etc/traefik/traefik.toml
-    networks:
-      - traefik
-      - gateway
-    ports:
-      - "80:80"
-      - "8080:8080"
-    restart: always
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./docker/traefik/traefik.toml:/traefik.toml
 
 networks:
   gateway:
